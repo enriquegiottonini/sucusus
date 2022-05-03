@@ -4,7 +4,7 @@ module.exports = app =>{
     router.post("/", cursos.create);
     router.get("/:offset", cursos.getAll);
     router.get("/", cursos.getCount);
-    router.get("/:id", cursos.getOne);
+    router.get("/ModificarCurso/:id", cursos.getOne);
     router.put("/:id", cursos.update);
     router.delete("/:id", cursos.delete);
     app.use('/api/mod/cursos', router);

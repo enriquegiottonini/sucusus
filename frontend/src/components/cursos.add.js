@@ -49,7 +49,7 @@ const AddCurso = () => {
                 fechafinal: response.data.fechafinal
             });
             window.alert("Se ha guardado exitosamente.");
-            history.push("/");
+            history.push("/mod");
         })
         .catch(e=>{
             console.log(e);

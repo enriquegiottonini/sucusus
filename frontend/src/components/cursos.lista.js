@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import React, { useState, useEffect} from "react";
 import ShowHeader from "./cursos.header";
 
-
 const ListaCursos = () =>{
     const initialOffset = 0
     const initialDisabled1 = true;
@@ -74,7 +73,6 @@ const ListaCursos = () =>{
     }
     return (
         <div>
-            <ShowHeader/>
             <br/><br/>
             <div className="align-items-left ms-3">
                 <h3>Cursos disponibles:</h3>
@@ -89,7 +87,7 @@ const ListaCursos = () =>{
                                 <a href="#" className="btn btn-primary ">Editar</a>
                             </Link> 
                             <button className="btn btn-primary" onClick={() => EliminarCurso(cursos.id, cursos.nombre)}>Eliminar</button>
-                            <a href="#" className="btn btn-primary ">Generar Constancias</a>
+                            <a href="#" className="btn btn-primary " onClick={() => {console.log(cursos)}}>Generar Constancias</a>
                         </div>
                     </div>
                 </div>
