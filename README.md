@@ -7,6 +7,7 @@ PARA CORRER LOS SERVIDORES
 - Instalar mysql server en su maquina.
 
 Cambiar la configuracion de la base de datos en /backend/config/db.config.js ... Lo que podemos hacer es configar nuestros servidores locales con la misma informacion para no estarla cambiando del repositorio.
+Crean desde la linea de comandos una base de datos con ... CREATE DATBASE database_name; Lo demas se hara automaticamente.
 
 La base de datos es en MySQL, si la quieren ver desde su navegador hay que usar phpadmin. De otra forma se puede hacer desde la consola.
 
