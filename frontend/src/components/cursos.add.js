@@ -57,7 +57,6 @@ const AddCurso = () => {
     };
     return(
         <div>
-            <ShowHeader/>
             <br/><br/>
             <div className="align-items-left ms-3">
             <h3>Agregar Curso:</h3>
@@ -85,7 +84,7 @@ const AddCurso = () => {
             <div class="row">
                 <div class="col mt-3 ms-3">
                     <label> Modalidad </label>
-                    <select class="form-select" id="modalidad" required value={curso.modalidad} onChange={handleInputChange} name="modalidad">
+                    <select class="form-control" id="modalidad" required value={curso.modalidad} onChange={handleInputChange} name="modalidad">
                         <option selected>En linea</option>
                         <option>Presencial</option>
                     </select>

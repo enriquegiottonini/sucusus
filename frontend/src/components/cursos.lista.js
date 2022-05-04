@@ -2,7 +2,7 @@ import CursoService from "../services/CursoService"
 import {Link} from 'react-router-dom';
 import React, { useState, useEffect} from "react";
 import ShowHeader from "./cursos.header";
-
+import 'bootstrap/dist/css/bootstrap.css';
 const ListaCursos = () =>{
     const initialOffset = 0
     const initialDisabled1 = true;
@@ -62,7 +62,7 @@ const ListaCursos = () =>{
         setOffset(newoffset);
         getCursos(newoffset);
         setDisabled1(false);
-        if(newoffset+5>total) setDisabled2(true);
+        if(newoffset+3>total) setDisabled2(true);
     }
     const prevPage = () => {
         const newoffset = offset-5
@@ -79,15 +79,40 @@ const ListaCursos = () =>{
             </div>
             <div className="align-items-left ms-3">
             {cursos && cursos.map((cursos, index) => (
-                <div className="card m-3 " key={index}>
+                <div className="card mb-3 " key={index}>
                     <div className="card-body">
-                        <h5 className="card-title">{cursos.nombre}</h5>
+                        <h3 className="card-title">{cursos.nombre}</h3>
+                        <div className="container p-0 w-100 mb-3">
+                            <div className="row no-gutters w-100 justify-content-start">
+                                <div className="col-sm-2">   
+                                    <label><b>Encargado:</b> {cursos.encargado}</label>
+                                </div>
+                                <div className="col-sm-4">   
+                                    <label><b>Modalidad: </b>{cursos.modalidad}</label>
+                                </div>
+                                <div className="col-sm-6">   
+                                    <label><b>Consejo Correspondiente: </b>{cursos.consejo}</label>
+                                </div>
+                                
+                            </div>
+                            <div className="row no-gutters w-100 justify-content-start">
+                                <div className="col-sm-2">   
+                                    <label><b>Duracion: </b> {cursos.duracion}</label>
+                                </div>
+                                <div className="col-sm-4">   
+                                    <label><b>Fecha de inicio: </b>{cursos.fechainicio}</label>
+                                </div>
+                                <div className="col-sm-5">   
+                                    <label><b>Fecha de finalizacion: </b>{cursos.fechafinal}</label>
+                                </div>
+                            </div>
+                        </div>
                         <div className="d-flex justify-content-start gap-3">
                             <Link to={{pathname: `/mod/ModificarCurso/${cursos.id}`}}>
-                                <a href="#" className="btn btn-primary ">Editar</a>
+                                <a href="#" className="btn btn-primary mr-3">Editar</a>
                             </Link> 
                             <button className="btn btn-primary" onClick={() => EliminarCurso(cursos.id, cursos.nombre)}>Eliminar</button>
-                            <a href="#" className="btn btn-primary " onClick={() => {console.log(cursos)}}>Generar Constancias</a>
+                            <a href="#" className="btn btn-primary ml-3" onClick={() => {console.log(cursos)}}>Generar Constancias</a>
                         </div>
                     </div>
                 </div>
@@ -107,9 +132,9 @@ const ListaCursos = () =>{
                                 </ul>
                             </nav>
                         </div>
-                    <div className="column ">
+                    <div className="column">
                         <Link to="/mod/AgregarCurso">
-                            <button type="button" className="btn btn-primary float-end">Agregar curso</button>
+                            <button type="button" className="btn btn-primary float-right">Agregar curso</button>
                         </Link>
                     </div>
                 </div>
