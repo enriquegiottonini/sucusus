@@ -62,7 +62,7 @@ const ListaCursos = () =>{
         setOffset(newoffset);
         getCursos(newoffset);
         setDisabled1(false);
-        if(newoffset+3>total) setDisabled2(true);
+        if(newoffset+5>total) setDisabled2(true);
     }
     const prevPage = () => {
         const newoffset = offset-5
