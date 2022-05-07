@@ -67,7 +67,7 @@ const vapellido_m = (value) => {
 };
 
 const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
+  if (value.length < 3 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
         Ingrese entre 3 y 20 caracteres.
@@ -128,7 +128,7 @@ const AddUser = () => {
     <div className="submit-form">
       {submitted ? (
         <div>
-          <h4>You submitted successfully!</h4>
+          <h4>Se agregó correctamente!</h4>
           <button className="btn btn-success" onClick={newUser}>
             Agregar
           </button>
@@ -207,10 +207,15 @@ const AddUser = () => {
                 validations={[required, vpassword]}
               />
             </div>
+
           </Form>
 
-          <button onClick={saveUser} className="btn btn-success">
-            Submit
+          <button
+            type="submit"
+            className="btn btn-success"
+            onClick={saveUser}
+          >
+           Agregar
           </button>
         </div>
       )}

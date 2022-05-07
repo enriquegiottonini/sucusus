@@ -35,37 +35,43 @@ const BoardAdmin = () => {
 
   return (
     <div className="container">
-      <header className="jumbotron">
-        <h3>Un administrador puede modficar usuarios y agregrar Moderadores.</h3>
-      </header>
+
+      <div>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container justify-content-center align-items-center h-100">
+            <h1 class="display-4">Panel de Administrador</h1>
+            <p class="lead">
+            Puedes agregar, modificar y eliminar cuentas de
+            Moderadores de Eventos Formativos.
+            </p>
+          </div>
+        </div>
+      </div>
 
       <Router>
-      <nav className="navbar navbar-expand navbar-light bg-light shadow-sm  mb-1  justify-content-center">
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/mod/get"} className="nav-link">
-              Usuarios
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={"/add"} className="nav-link">
-              Agregar +
-            </Link>
-          </li>
+        <nav className="navbar-expand navbar-light bg-light  shadow-sm  mb-1  justify-content-center">
+          <div className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/mod/get"} className="nav-link">
+                Cuentas
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/add"} className="nav-link">
+                Agregar
+              </Link>
+            </li>
+          </div>
+        </nav>
+        <div className="container mt-3">
+          <Switch>
+            <Route exact path={["/mod/get"]} component={UserList} />
+            <Route exact path="/add" component={AddUser} />
+            <Route path="/mod/get/:id" component={User} />
+          </Switch>
         </div>
-      </nav>
-      <div className="container mt-3">
-        <Switch>
-          <Route exact path={["/mod/get"]} component={UserList} />
-          <Route exact path="/add" component={AddUser} />
-          <Route path="/mod/get/:id" component={User} />
-        </Switch>
-      </div>
-    </Router>
-
-
+      </Router>
     </div>
-
   );
 };
 

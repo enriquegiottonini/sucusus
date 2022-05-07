@@ -32,16 +32,20 @@ const BoardModerator = () => {
 
   return (
     <div>
-      <div className="container">
-        <header className="jumbotron">
-          <h3>Un moderador(?), maestro, responsable de curso, etc, puede agregar, editar, eliminar cursos. Hasta ahora ...</h3>
-        </header>
+      <div>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container justify-content-center align-items-center h-100">
+            <h1 class="display-4">Panel de Moderador</h1>
+            <p class="lead">
+            Puedes agregar, modificar y eliminar Eventos Formativos.
+            </p>
+          </div>
+        </div>
       </div>
 
       <BrowserRouter>
         <Cursos />
-      </BrowserRouter>
-      
+      </BrowserRouter>    
     </div>
   );
 };
