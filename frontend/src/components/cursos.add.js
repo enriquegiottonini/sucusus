@@ -23,7 +23,15 @@ const AddCurso = () => {
         setCurso({...curso, [name]: value});
     };
     const saveCurso = () => {
-
+        if(!/^[0-9]+$/.test(curso.duracion)||Number(curso.duracion)>2147483647){
+            window.alert("La duracion introducida no es valida.");
+            return;
+        }
+        if(!/^[0-9]+-[0-9]+$/.test(curso.numsesion)){
+            console.log("ouo"+curso.numsesion)
+            window.alert("El numero de sesion introducido no es valido.");
+            return;
+        }
         var data = {
             nombre: curso.nombre,
             encargado: curso.encargado,
@@ -107,7 +115,7 @@ const AddCurso = () => {
             <div class="row">
                 <div class="col mt-3 ms-3">
                     <label> Numero de sesion de consejo</label>
-                    <input type="number" class="form-control" id="numsesion" required value={curso.numsesion} onChange={handleInputChange} name="numsesion"></input>
+                    <input type="text" class="form-control" id="numsesion" required value={curso.numsesion} onChange={handleInputChange} name="numsesion"></input>
                 </div>
                 <div class="form-group col mt-3 me-3"/>
             </div>
