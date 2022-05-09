@@ -72,7 +72,7 @@ const App = () => {
 
             {showModeratorBoard && (
               <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
+                <Link to={"/mod"} className="nav-link" onClick={() => {history.push("/mod"); window.location.reload();}}>
                   Gestionar Cursos
                 </Link>
               </li>
@@ -81,18 +81,18 @@ const App = () => {
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
-                  Gestionar Usuarios
+                  Gestionar Cuentas
                 </Link>
               </li>
             )}
 
-            {currentUser && (
+           {/*  {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
                   Cursos(?)
                 </Link>
               </li>
-            )}
+            )} */}
           </div>
 
           {currentUser ? (
@@ -116,11 +116,11 @@ const App = () => {
                 </Link>
               </li>
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to={"/register"} className="nav-link">
                   Sign Up
                 </Link>
-              </li>
+              </li> */}
             </div>
           )}
         </nav>

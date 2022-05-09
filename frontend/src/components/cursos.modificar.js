@@ -40,6 +40,15 @@ const ModificarCurso = () => {
         })
     }
     const updateCurso = () => {
+        if(!/^[0-9]+$/.test(curso.duracion)||Number(curso.duracion)>2147483647){
+            window.alert("La duracion introducida no es valida.");
+            return;
+        }
+        if(!/^[0-9]+-[0-9]+$/.test(curso.numsesion)){
+            console.log("ouo"+curso.numsesion)
+            window.alert("El numero de sesion introducido no es valido.");
+            return;
+        }
         var data = {
             nombre: curso.nombre,
             encargado: curso.encargado,
@@ -55,7 +64,7 @@ const ModificarCurso = () => {
         CursoService.update(id, data)
         .then(response=>{
             window.alert("Se ha guardado exitosamente.");
-            history.push("/");
+            history.push("/mod");
         })
         .catch(e=>{
             window.alert("Ocurrio un error");
@@ -64,7 +73,6 @@ const ModificarCurso = () => {
     useEffect(() => {getCursos()}, []);
     return(
         <div>
-            <ShowHeader/>
             <br/><br/>
             <div className="align-items-left ms-3">
             <h3>Modificar Curso:</h3>
@@ -92,7 +100,7 @@ const ModificarCurso = () => {
             <div class="row">
                 <div class="col mt-3 ms-3">
                     <label> Modalidad </label>
-                    <select class="form-select" id="modalidad" required value={curso.modalidad} onChange={handleInputChange} name="modalidad">
+                    <select class="form-control" id="modalidad" required value={curso.modalidad} onChange={handleInputChange} name="modalidad">
                         <option selected>En linea</option>
                         <option>Presencial</option>
                     </select>
@@ -115,7 +123,7 @@ const ModificarCurso = () => {
             <div class="row">
                 <div class="col mt-3 ms-3">
                     <label> Numero de sesion de consejo</label>
-                    <input type="number" class="form-control" id="numsesion" required value={curso.numsesion} onChange={handleInputChange} name="numsesion"></input>
+                    <input type="text" class="form-control" id="numsesion" required value={curso.numsesion} onChange={handleInputChange} name="numsesion"></input>
                 </div>
                 <div class="form-group col mt-3 me-3"/>
             </div>

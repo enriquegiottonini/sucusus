@@ -68,7 +68,7 @@ const vapellido_m = (value) => {
 };
 
 const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
+  if (value.length < 3 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
         Ingrese entre 3 y 20 caracteres.
@@ -78,7 +78,6 @@ const vpassword = (value) => {
 };
 
 const User = (props) => {
-
   const form = useRef();
 
   const initialUserState = {
@@ -116,7 +115,7 @@ const User = (props) => {
     dispatch(updateUser(currentUser.id, currentUser))
       .then((response) => {
         console.log(response);
-        setMessage("Se agregó al usuario correctamente!");
+        setMessage("Se actualizó la información correctamente!");
       })
       .catch((e) => {
         console.log(e);
@@ -136,9 +135,8 @@ const User = (props) => {
     <div>
       {currentUser ? (
         <div className="edit-form">
-          <h4>User</h4>
+          <h4>Cuenta</h4>
           <Form onSubmit={updateAnUser} ref={form}>
-
             <div className="form-group">
               <label htmlFor="nombre">Nombre</label>
               <Input
@@ -200,16 +198,18 @@ const User = (props) => {
             </div>
           </Form>
 
-          <button className="badge badge-danger mr-2" onClick={removeUser}>
-            Eliminar Cuenta
-          </button>
           <button
             type="submit"
-            className="badge badge-success"
+            className="btn badge-success"
             onClick={updateAnUser}
           >
             Actualizar
           </button>
+
+          <button className="btn badge-danger mr-2 float-right" onClick={removeUser}>
+            Eliminar Cuenta
+          </button>
+
           <p>{message}</p>
         </div>
       ) : (

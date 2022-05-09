@@ -34,7 +34,7 @@ const UserList = () => {
   };
   return (
     <div className="list row">
-      <div className="col-md-8">
+      {/* <div className="col-md-8">
         <div className="input-group mb-3">
           <input
             type="text"
@@ -53,9 +53,9 @@ const UserList = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="col-md-6">
-        <h4>Lista de Usuarios</h4>
+        <h4>Lista de Moderadores</h4>
         <ul className="list-group">
           {users &&
             users.map((someUser, index) => (
@@ -74,18 +74,18 @@ const UserList = () => {
       <div className="col-md-6">
         {currentUser ? (
           <div>
-            <h4>Usuario</h4>
+            <h4>Cuenta</h4>
 
             <div>
               <label>
-                <strong>ID: </strong>
+                <strong>Id: </strong>
               </label>{" "}
               {currentUser.id}
             </div>
 
             <div>
               <label>
-                <strong>User:</strong>
+                <strong>Usuario:</strong>
               </label>{" "}
               {currentUser.username}
             </div>
@@ -106,7 +106,7 @@ const UserList = () => {
 
             <Link
               to={"/mod/get/" + currentUser.id}
-              className="badge badge-warning"
+              className="btn badge-warning"
             >
               Editar
             </Link>
@@ -114,7 +114,7 @@ const UserList = () => {
         ) : (
           <div>
             <br />
-            <p>Haga clic en algún Usuario...</p>
+            <p>Haga clic en alguna cuenta...</p>
           </div>
         )}
       </div>

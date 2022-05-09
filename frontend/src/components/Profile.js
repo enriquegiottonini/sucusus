@@ -14,17 +14,21 @@ const Profile = () => {
 
   return (
     <div className="container">
-      <header className="jumbotron">
-        <h3>
-          <strong>{currentUser.username}</strong> Perfil: 
-        </h3>
-      </header>
 
-      <h4>Usuario</h4>
+      <div>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container justify-content-center align-items-center h-100">
+            <h1 class="display-4">Panel de {currentUser.username}</h1>
+            <p class="lead">
+            Puedes editar o eliminar tu cuenta.
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div>
         <label>
-          <strong>ID: </strong>
+          <strong>Id: </strong>
         </label>{" "}
         {currentUser.id}
       </div>
@@ -54,7 +58,7 @@ const Profile = () => {
         {currentUser.email}
       </div>
       <Router>
-        <Link to={"/mod/get/" + currentUser.id} className="badge badge-warning">
+        <Link to={"/mod/get/" + currentUser.id} className="btn badge-warning">
           Editar
         </Link>
         <Switch>
