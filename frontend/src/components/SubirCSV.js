@@ -3,9 +3,15 @@ import React, {useState} from "react";
 import {Link} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { data, ready } from 'jquery';
 
 const SubirCSV = () => {
     
+    function student(name, father_last, mother_last) {
+        this.name = name;
+        this.father_last = father_last;
+        this.mother_last = mother_last;
+    }
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -13,8 +19,62 @@ const SubirCSV = () => {
 
     const saveStudents = () => {
         setShow(true);
+
+        let uploadFile = document.querySelector("#file");    
+
+        let reader;
+        if (document.getElementById('fileUpload').files != null && 
+            document.getElementById('fileUpload').files[0] != null) {
+
+            reader = new FileReader();
+        
+            reader.readAsText(document.getElementById('fileUpload').files[0]);
+
+            reader.addEventListener('load', fileLoaded);
+        } 
+           
+        
     }
 
+    const fileLoaded = (e) => {
+            let reader = e.target;
+
+            if (reader.readyState === 2 /* DONE */ ) {
+                console.log(reader.result);
+
+                let data = reader.result;
+                
+                let i = data.indexOf('nombre, apellido_paterno, apellido_materno\n');
+                if(i != -1) data = data.replace('nombre, apellido_paterno, apellido_materno\n', '');
+
+                let students = [];
+                let n = 0;
+
+                i = data.indexOf(',');
+
+                while (i != -1) {
+                    let name = data.slice(0, i);
+                    data = data.replace(name + ", ", "");
+
+                    i = data.indexOf(',');
+                    let fathers_last = data.slice(0,i);
+                    data = data.replace(fathers_last + ", ", "");
+
+                    i = data.indexOf('\n');
+                    let mothers_last = data.slice(0,i);
+                    data = data.replace(mothers_last + "\n", "");
+
+                    students[n] = student(name, fathers_last, mothers_last);
+                    n++;
+
+                    console.log(name + " " + fathers_last + " " + mothers_last);
+                    i = data.indexOf(',');
+                }
+
+            } else {
+                console.log("reader not ready.");
+            }
+    }
 
     return (
         <div>
@@ -44,7 +104,7 @@ const SubirCSV = () => {
                         <input type="number" className="form-control" id="numsesion" ></input>
                     </div>
                     <div className="d-flex flex-column justify-content-end form-group col mt-3 me-3">
-                        <input type="file" id="avatar" name="avatar" accept=".csv"></input>
+                        <input type="file" id="fileUpload" name="file" accept=".csv"></input>
                     </div>
                 </div>
                 <div className="row">
@@ -68,9 +128,6 @@ const SubirCSV = () => {
                     Haz click en terminar para regresar a la lista de alumnos del curso.
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
                 <Link to={{pathname: `/mod/GenerarConstancias`}}>
                 <Button variant="primary">
                     Terminar 

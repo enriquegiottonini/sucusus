@@ -1,15 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import React, {useState} from "react";
 
 const GenerarConstancias = () => {
 
-    const subirArchivo = () => {
+    const [show, setShow] = useState(false);
 
-    }
-
-    const mostrarAlumnos = () => {
-
-    }
+    const handleClose = () => setShow(false);
 
     return (
         <div className = "w-100 h-100">
@@ -49,6 +48,25 @@ const GenerarConstancias = () => {
             </table>
             <br></br>
             <br></br>
+
+
+            <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                <Modal.Title>Alumnos agregados exitosamente.</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Los alumnos se han agregado a la base de datos exitosamente.
+                    Haz click en terminar para regresar a la lista de alumnos del curso.
+                </Modal.Body>
+                <Modal.Footer>
+                <Link to={{pathname: `/mod/GenerarConstancias`}}>
+                <Button variant="primary">
+                    Terminar 
+                </Button>
+                </Link>
+                </Modal.Footer>
+            </Modal>
+
             <footer class = "footer">
                 <div class="container">
                     <div class="row no-gutters">
