@@ -20,6 +20,7 @@ exports.create = (req, res) => {
         consejo: req.body.consejo,
         fechainicio: req.body.fechainicio,
         fechafinal: req.body.fechafinal,
+        addedby: req.body.addedby
     };
     Curso.create(curso)
     .then(data=>{
@@ -35,19 +36,51 @@ exports.create = (req, res) => {
 
 // Buscar todos los cursos en la base de datos
 exports.getAll = (req, res) => {
-  Curso.findAll({
-      offset: Number(req.params.offset),
-      limit: 5,
-      })
-  .then(data=>{
-      res.send(data);
-  })
-  .catch(err=>{
-      res.status(500).send({
-          message:
-            err.message || "Ocurrio un error"
-      });
-  });
+    const str=String(req.params.string)
+    const parse = str.split('-');
+    const type = parse[0];
+    if(Number(type)===0){
+        const [ ,offset, id] = parse;
+        Curso.findAll({
+            where: {
+                addedby: Number(id)
+            },
+            offset: Number(offset),
+            limit: 5,
+            })
+          .then(data=>{
+            res.send(data);
+          })
+          .catch(err=>{
+            res.status(500).send({
+                message:
+                  err.message || "Ocurrio un error"
+            });
+          });
+    } else {
+        const [ ,id] = parse;
+        Curso.count({
+            where: {
+                addedby: id
+            }
+        })
+        .then(data=>{
+            if(data){
+                res.send({num:data})
+            } else {
+                res.status(404).send({
+                    message: `Ocurrio un error`
+                });
+            }
+        })
+        .catch(err=>{
+            res.status(500).send({
+                message: `Ocurrio un error`
+            });
+    });
+    }
+    
+    
 };
 exports.getOne = (req, res) => {
     Curso.findByPk(req.params.id)
@@ -109,19 +142,5 @@ exports.delete = (req, res) => {
 };
 
 exports.getCount = (req, res) => {
-    Curso.count()
-    .then(data=>{
-        if(data){
-            res.send({num:data})
-        } else {
-            res.status(404).send({
-                message: `Ocurrio un error`
-            });
-        }
-    })
-    .catch(err=>{
-        res.status(500).send({
-            message: `Ocurrio un error`
-        });
-    });
+    
 };
