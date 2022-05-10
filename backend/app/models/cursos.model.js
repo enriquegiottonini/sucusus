@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER
         },
         numsesion: {
-            type: Sequelize.INTEGER
+            type: Sequelize.STRING
         },
         fechasesion: {
             type: Sequelize.STRING
@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         fechafinal: {
             type: Sequelize.STRING
+        },
+        addedby:{
+            type: Sequelize.INTEGER
         }
     });
     return Cursos;

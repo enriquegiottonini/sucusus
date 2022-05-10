@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import React, { useState, useEffect} from "react";
 import ShowHeader from "./cursos.header";
 import 'bootstrap/dist/css/bootstrap.css';
+import User from "./User";
+import { useSelector } from "react-redux";
 const ListaCursos = () =>{
     const initialOffset = 0
     const initialDisabled1 = true;
@@ -12,8 +14,9 @@ const ListaCursos = () =>{
     const [disabled1, setDisabled1] = useState(initialDisabled1);
     const [disabled2, setDisabled2] = useState(initialDisabled2);
     const [total, setTotal] = useState(initialOffset);
+    const { user: currentUser } = useSelector((state) => state.auth);
     const getCount = () => {
-        CursoService.getCount()
+        CursoService.getAll('2'+'-'+Number(currentUser.id))
         .then(response => {
             console.log(response.data)
                 if(response.data.num==5){
@@ -30,13 +33,14 @@ const ListaCursos = () =>{
     }
     useEffect(() => {
         setOffset(0);
-        getCursos(offset);
         getCount();
+        getCursos(offset);
+        
       }, []);
         
     
     const getCursos = (n) => {
-        CursoService.getAll(n)
+        CursoService.getAll('0'+'-'+n+'-'+Number(currentUser.id))
         .then(response => {
             console.log(response.data)
                 setCursos(response.data);

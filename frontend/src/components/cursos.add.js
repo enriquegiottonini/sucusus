@@ -3,7 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ShowHeader from "./cursos.header";
 import CursoService from "../services/CursoService"
 import {useHistory} from "react-router-dom";
+import User from "./User";
+import { useSelector } from "react-redux";
 const AddCurso = () => {
+    const { user: currentUser } = useSelector((state) => state.auth);
     let history = useHistory();
     const initialCursoState = {
         id: null,
@@ -15,7 +18,8 @@ const AddCurso = () => {
         fechasesion: null,
         consejo: null,
         fechainicio: null,
-        fechafinal: null
+        fechafinal: null,
+        addedby: null
     }
     const [curso, setCurso] = useState(initialCursoState);
     const handleInputChange = event =>{
@@ -28,7 +32,6 @@ const AddCurso = () => {
             return;
         }
         if(!/^[0-9]+-[0-9]+$/.test(curso.numsesion)){
-            console.log("ouo"+curso.numsesion)
             window.alert("El numero de sesion introducido no es valido.");
             return;
         }
@@ -41,8 +44,10 @@ const AddCurso = () => {
             fechasesion: curso.fechasesion,
             consejo: curso.consejo,
             fechainicio: curso.fechainicio,
-            fechafinal: curso.fechafinal
+            fechafinal: curso.fechafinal,
+            addedby: Number(currentUser.id)
         };
+        console.log('a '+data.addedby);
         CursoService.create(data)
         .then(response =>{
             setCurso({
