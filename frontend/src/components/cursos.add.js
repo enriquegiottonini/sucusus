@@ -9,7 +9,6 @@ const AddCurso = () => {
     const { user: currentUser } = useSelector((state) => state.auth);
     let history = useHistory();
     const initialCursoState = {
-        id: null,
         nombre: null,
         encargado: null,
         modalidad: "En linea",
@@ -19,7 +18,7 @@ const AddCurso = () => {
         consejo: null,
         fechainicio: null,
         fechafinal: null,
-        addedby: null,
+        addedby: Number(currentUser.id),
         tipo: "Curso"
     }
     const [curso, setCurso] = useState(initialCursoState);
@@ -28,13 +27,20 @@ const AddCurso = () => {
         setCurso({...curso, [name]: value});
     };
     const saveCurso = () => {
-        if(!/^[0-9]+$/.test(curso.duracion)||Number(curso.duracion)>2147483647||Number(curso.duracion)>=0){
+        if(!/^[0-9]+$/.test(curso.duracion)||Number(curso.duracion)>2147483647||Number(curso.duracion)<=0){
             window.alert("La duracion introducida no es valida.");
             return;
         }
         if(!/^[0-9]+-[0-9]+$/.test(curso.numsesion)){
             window.alert("El numero de sesion introducido no es valido.");
             return;
+        }
+        for (const key in curso) {
+            if(curso[key]==null||String(curso[key].trim)==""){
+                window.alert("Los campos no pueden estar vacios.");
+                console.log(`${key}: ${curso[key]}`);
+                return;
+            }
         }
         var data = {
             nombre: curso.nombre,
@@ -130,7 +136,7 @@ const AddCurso = () => {
                     <label> Numero de sesion de consejo</label>
                     <input type="text" class="form-control" id="numsesion" required value={curso.numsesion} onChange={handleInputChange} name="numsesion"></input>
                 </div>
-                <div class="form-group col me-3">
+                <div class="form-group col mt-3 me-3">
                     <label> Fecha de reunion de Consejo </label>
                     <input type="date" class="form-control" id="fechasesion" required value={curso.fechasesion} onChange={handleInputChange} name="fechasesion"/>
                 </div>
