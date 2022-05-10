@@ -141,6 +141,3 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.getCount = (req, res) => {
-    
-};
