@@ -77,9 +77,8 @@ const ListaCursos = () =>{
     }
     return (
         <div>
-            <br/><br/>
             <div className="align-items-left ms-3">
-                <h3>Cursos disponibles:</h3>
+                <h3>Eventos formativos registrados:</h3>
             </div>
             <div className="align-items-left ms-3">
             {cursos && cursos.map((cursos, index) => (
@@ -88,19 +87,18 @@ const ListaCursos = () =>{
                         <h3 className="card-title">{cursos.nombre}</h3>
                         <div className="container p-0 w-100 mb-3">
                             <div className="row no-gutters w-100 justify-content-start">
-                                <div className="col-sm-2">   
-                                    <label><b>Encargado:</b> {cursos.encargado}</label>
+                            <div className="col-sm-3">   
+                                    <label><b>Tipo:</b> {cursos.tipo}</label>
                                 </div>
                                 <div className="col-sm-4">   
+                                    <label><b>Encargado:</b> {cursos.encargado}</label>
+                                </div>
+                                <div className="col-sm-5">   
                                     <label><b>Modalidad: </b>{cursos.modalidad}</label>
                                 </div>
-                                <div className="col-sm-6">   
-                                    <label><b>Consejo Correspondiente: </b>{cursos.consejo}</label>
-                                </div>
-                                
                             </div>
                             <div className="row no-gutters w-100 justify-content-start">
-                                <div className="col-sm-2">   
+                                <div className="col-sm-3">   
                                     <label><b>Duracion: </b> {cursos.duracion}</label>
                                 </div>
                                 <div className="col-sm-4">   
@@ -108,6 +106,17 @@ const ListaCursos = () =>{
                                 </div>
                                 <div className="col-sm-5">   
                                     <label><b>Fecha de finalizacion: </b>{cursos.fechafinal}</label>
+                                </div>
+                            </div>
+                            <div className="row no-gutters w-100 justify-content-start">
+                                <div className="col-sm-3">   
+                                        <label><b>Consejo: </b>{cursos.consejo}</label>
+                                </div>
+                                <div className="col-sm-4">   
+                                    <label><b>Numero de sesion de consejo: </b>{cursos.numsesion}</label>
+                                </div>
+                                <div className="col-sm-5">   
+                                    <label><b>Fecha de reunion: </b>{cursos.fechasesion}</label>
                                 </div>
                             </div>
                         </div>

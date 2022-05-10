@@ -19,7 +19,8 @@ const AddCurso = () => {
         consejo: null,
         fechainicio: null,
         fechafinal: null,
-        addedby: null
+        addedby: null,
+        tipo: "Curso"
     }
     const [curso, setCurso] = useState(initialCursoState);
     const handleInputChange = event =>{
@@ -27,7 +28,7 @@ const AddCurso = () => {
         setCurso({...curso, [name]: value});
     };
     const saveCurso = () => {
-        if(!/^[0-9]+$/.test(curso.duracion)||Number(curso.duracion)>2147483647){
+        if(!/^[0-9]+$/.test(curso.duracion)||Number(curso.duracion)>2147483647||Number(curso.duracion)>=0){
             window.alert("La duracion introducida no es valida.");
             return;
         }
@@ -45,7 +46,8 @@ const AddCurso = () => {
             consejo: curso.consejo,
             fechainicio: curso.fechainicio,
             fechafinal: curso.fechafinal,
-            addedby: Number(currentUser.id)
+            addedby: Number(currentUser.id),
+            tipo: curso.tipo
         };
         console.log('a '+data.addedby);
         CursoService.create(data)
@@ -59,7 +61,8 @@ const AddCurso = () => {
                 fechasesion: response.data.fechasesion,
                 consejo: response.data.consejo,
                 fechainicio: response.data.fechainicio,
-                fechafinal: response.data.fechafinal
+                fechafinal: response.data.fechafinal,
+                tipo: response.data.tipo
             });
             window.alert("Se ha guardado exitosamente.");
             history.push("/mod");
@@ -70,9 +73,8 @@ const AddCurso = () => {
     };
     return(
         <div>
-            <br/><br/>
             <div className="align-items-left ms-3">
-            <h3>Agregar Curso:</h3>
+            <h3>Agregar Evento Formativo:</h3>
             </div>
             <div class="row">
                 <div class="col ms-3">
@@ -80,8 +82,13 @@ const AddCurso = () => {
                     <input type="text" class="form-control" id="nombre" required value={curso.nombre} onChange={handleInputChange} name="nombre"/>
                 </div>
                 <div class="form-group col me-3">
-                    <label> Fecha de reunion de Consejo </label>
-                    <input type="date" class="form-control" id="fechasesion" required value={curso.fechasesion} onChange={handleInputChange} name="fechasesion"/>
+                    <label> Tipo </label>
+                    <select class="form-control" id="tipo" required value={curso.tipo} onChange={handleInputChange} name="tipo">
+                        <option selected>Curso</option>
+                        <option>Taller</option>
+                        <option>Programa especial</option>
+                        <option>Diplomado</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -100,6 +107,7 @@ const AddCurso = () => {
                     <select class="form-control" id="modalidad" required value={curso.modalidad} onChange={handleInputChange} name="modalidad">
                         <option selected>En linea</option>
                         <option>Presencial</option>
+                        <option>Mixta</option>
                     </select>
                 </div>
                 <div class="form-group col mt-3 me-3">
@@ -122,7 +130,10 @@ const AddCurso = () => {
                     <label> Numero de sesion de consejo</label>
                     <input type="text" class="form-control" id="numsesion" required value={curso.numsesion} onChange={handleInputChange} name="numsesion"></input>
                 </div>
-                <div class="form-group col mt-3 me-3"/>
+                <div class="form-group col me-3">
+                    <label> Fecha de reunion de Consejo </label>
+                    <input type="date" class="form-control" id="fechasesion" required value={curso.fechasesion} onChange={handleInputChange} name="fechasesion"/>
+                </div>
             </div>
             <div class="col d-flex justify-content-center">
              <button class="btn btn-primary m-3" onClick={saveCurso}>Guardar</button>

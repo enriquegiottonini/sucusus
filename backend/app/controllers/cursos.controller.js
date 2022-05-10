@@ -4,9 +4,9 @@ const Op = db.Sequelize.Op;
 
 //Agregar curso
 exports.create = (req, res) => {
-    if (!req.body.nombre) {
+    if (!req.body) {
         res.status(400).send({
-          message: "Nombre no puede estar vacio"
+          message: "No puede estar vacio"
         });
         return;
       }
@@ -20,7 +20,8 @@ exports.create = (req, res) => {
         consejo: req.body.consejo,
         fechainicio: req.body.fechainicio,
         fechafinal: req.body.fechafinal,
-        addedby: req.body.addedby
+        addedby: req.body.addedby,
+        tipo: req.body.tipo
     };
     Curso.create(curso)
     .then(data=>{

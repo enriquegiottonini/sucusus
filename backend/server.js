@@ -18,10 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 // database
 const db = require("./app/models");
 const Role = db.role;
-
-  /* db.sequelize.sync( {force: true} ).then(() => {
-  console.log('Drop and Resync Db');
-  initial();
+ db.sequelize.sync( {alter: true} ).then(() => {
+  console.log('Create or change tables');
+  //initial();
 });
 function initial() {
   Role.create({
@@ -38,7 +37,7 @@ function initial() {
     id: 3,
     name: "admin"
   });
-} */
+}
 
 // simple route
 app.get("/", (req, res) => {
