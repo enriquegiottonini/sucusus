@@ -29,21 +29,21 @@ const GenerarConstancias = () => {
                 <tbody>
                     <tr>
                     <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>América</td>
+                    <td>Rivera</td>
+                    <td>Camacho</td>
                     </tr>
                     <tr>
                     <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
+                    <td>Hisaki</td>
+                    <td>Moreno</td>
+                    <td>Hirata</td>
                     </tr>
                     <tr>
                     <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>Luis Pablo</td>
+                    <td>Flores</td>
+                    <td>Guevara</td>
                     </tr>
                 </tbody>
             </table>
