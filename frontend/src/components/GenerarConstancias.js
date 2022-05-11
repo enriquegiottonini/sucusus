@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 //import StudentService from '../services/StudentService';
 import { jsPDF } from "jspdf";
 import CursoService from "../services/CursoService"
+import constancia from "./Images/CertificadoReconocimientoDoradoOscuro.jpg";
 
 const GenerarConstancias = () => {
     
@@ -31,6 +32,7 @@ const GenerarConstancias = () => {
     let { id } = useParams();
 
     const [signImg, setImg] = useState("");
+    const [firstTime, setFirstTime] = useState("true");
 
     function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
@@ -70,6 +72,7 @@ const GenerarConstancias = () => {
         let student_name = students[startIndex].name + " ";
         student_name += students[startIndex].father_last + " ";
         student_name += students[startIndex].mother_last;
+
         doc.setFontSize(20);
         doc.text(titulo, 78, 40);
         doc.text(consejo, 95, 50);
@@ -79,7 +82,6 @@ const GenerarConstancias = () => {
         doc.text(duration, 70, 90);
         doc.text(fecha, 74, 110);
         
-
         if (signImg !== "") {
             let sign = new Image();
             sign.src = signImg;
@@ -107,14 +109,6 @@ const GenerarConstancias = () => {
 
         doc.save("constancias.pdf");
     }
-
-    //function sendStudent(stu) {
-        //StudentService.create(stu).then(console.log('Yeaaaah')).
-            //catch(e=>{
-                //console.log(e);
-                //});
-
-    //}
 
     const [show, setShow] = useState(false);
 
@@ -150,6 +144,11 @@ const GenerarConstancias = () => {
             fileReader = new FileReader();
             imgReader = new FileReader();
 
+            imgReader.onload = function (e) {
+                imgLoaded(e);
+                fileReader.addEventListener('load', fileLoaded);
+            }
+
             if (uploadedFiles[0].type === "image/png") {
                 imgReader.readAsDataURL(uploadedFiles[0]).then(imgLoaded());
                 fileReader.readAsText(uploadedFiles[1]);
@@ -157,18 +156,16 @@ const GenerarConstancias = () => {
                 imgReader.readAsDataURL(uploadedFiles[1]);
                 fileReader.readAsText(uploadedFiles[0]);
             }
-            
-     imgReader.addEventListener('load', imgLoaded);
-     fileReader.addEventListener('load', fileLoaded);
-        
-        } 
 
-        handleClose();
+        
+    } 
+
+
+ 
+
     }
 
-
-
-    const fileLoaded = (e) => {
+    const fileLoaded = async (e) => {
             let reader = e.target;
 
             if (reader.readyState === 2 /* DONE */ ) {
@@ -203,7 +200,12 @@ const GenerarConstancias = () => {
                     i = data.indexOf(',');
                 }
 
-                generatePDFS(students, start, end);
+                if(firstTime === "true" ) {
+                    setFirstTime("second");
+                    saveStudents();
+                } else if (firstTime === "second") {
+                    generatePDFS(students, start, end);
+                }
 
             } else {
                 console.log("reader not ready.");
@@ -215,7 +217,7 @@ const GenerarConstancias = () => {
         <div className = "w-100 h-100" id="student_page">
             <div className="align-items-left ms-3">
                 <h3>Generar Constancias de Acreditación</h3>
-                <h4>Insertar rango de alumnos</h4>
+                <h4>Insertar rango de alumnos que serán seleccionados del archivo .csv de alumnos</h4>
                 <div class="row">
                 <div class="col mt-3 ms-3">
                     <label> Inicio </label>
@@ -275,11 +277,6 @@ const GenerarConstancias = () => {
             <footer class = "footer">
                 <div class="container">
                     <div class="row no-gutters">
-                        <div class="col-sm justify-content-start">
-                            <Button variant="primary" onClick={handleShow}>
-                                Subir CSV de alumnos
-                            </Button>
-                        </div>
                         <div class="col-sm float-right">
                             <button className="btn btn-primary ml-3 float-right" onClick={handleShow}> Generar constancias</button>
                         </div>
