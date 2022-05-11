@@ -14,6 +14,20 @@ var students_2 = [];
 const GenerarConstancias = () => {
     const [start, setStart] = useState(0)
     const [end, setEnd] = useState(0)
+    const initialCursoState = {
+        id: null,
+        nombre: null,
+        encargado: null,
+        modalidad: "En linea",
+        duracion: null,
+        numsesion: null,
+        fechasesion: null,
+        consejo: null,
+        fechainicio: null,
+        fechafinal: null,
+        tipo: "Curso"
+    }
+    const [curso, setCurso] = useState(initialCursoState);
     let { id } = useParams();
 
     function student(name, father_last, mother_last, id_curso) {
@@ -26,15 +40,18 @@ const GenerarConstancias = () => {
         
         return stu;
     }
-
+    function getCurso(){
+        CursoService.getOne(id)
+        .then(response => {
+            setCurso(response.data);
+            console.log(response.data);
+            return;
+        })
+    }
     function generatePDFS(students, startIndex, endIndex) {
-        CursoService.getOne(2)
-            .then(response => {
-                //setCurso(response.data);
-                console.log(response.data);
-                return;
-            })
+        getCurso();
         console.log("a"+id);
+        console.log(curso.nombre);
         //const doc = new jsPDF({orientation: "landscape"});
 
         //doc.text(students[startIndex].name, 100, 100);
