@@ -60,24 +60,31 @@ const GenerarConstancias = () => {
        
         console.log("a"+id);
         const doc = new jsPDF({orientation: "landscape"});
-        
-        let course_name = "Ing. de Software";
-        let duration = "80 horas";
-        let fecha = "7 de marzo de 2022, Hermosillo, Sonora.";
+        const titulo = "Constancia de acreditacion de evento formativo"
+        const course_name = String(curso.tipo)+" "+String(curso.nombre);
+        const duration = "Por haber cumplido las "+String(curso.duracion)+" horas del evento de tipo "+String(curso.tipo);
+        const consejo = "El consejo de la " + String(curso.consejo) + " acredita a ";
+        const fecha = "El cual tuvo lugar desde "+String(curso.fechainicio)+" hasta "+String(curso.fechafinal);
+        const coso = "Consejo de la "+String(curso.consejo)
 
         let student_name = students[startIndex].name + " ";
         student_name += students[startIndex].father_last + " ";
         student_name += students[startIndex].mother_last;
-        doc.text(student_name, 100, 60);
-        doc.text(course_name, 100, 80);
-        doc.text(duration, 100, 100);
-        doc.text(fecha, 100, 120);
+        doc.setFontSize(20);
+        doc.text(titulo, 78, 40);
+        doc.text(consejo, 95, 50);
+        doc.setFontSize(25);
+        doc.text(student_name, 105, 70);
+        doc.setFontSize(20);
+        doc.text(duration, 70, 90);
+        doc.text(fecha, 74, 110);
+        
 
         if (signImg !== "") {
             let sign = new Image();
             sign.src = signImg;
 
-            doc.addImage(signImg, 'PNG', 80, 140, 120, 80);
+            doc.addImage(signImg, 'PNG', 110, 140, 80, 40);
         }
 
         console.log(students);
@@ -120,6 +127,16 @@ const GenerarConstancias = () => {
         setShow(true);
     }
 
+    const imgLoaded = (e) => {
+        let reader = e.target;
+
+        if (reader.readyState === 2) {
+            let img = reader.result;
+
+            setImg(img);
+        }
+    }
+
     const saveStudents = () => {
         setShow(true);
 
@@ -134,29 +151,22 @@ const GenerarConstancias = () => {
             imgReader = new FileReader();
 
             if (uploadedFiles[0].type === "image/png") {
-                imgReader.readAsDataURL(uploadedFiles[0]);
+                imgReader.readAsDataURL(uploadedFiles[0]).then(imgLoaded());
                 fileReader.readAsText(uploadedFiles[1]);
             } else {
                 imgReader.readAsDataURL(uploadedFiles[1]);
                 fileReader.readAsText(uploadedFiles[0]);
             }
             
-            imgReader.addEventListener('load', imgLoaded);
-            fileReader.addEventListener('load', fileLoaded);
+     imgReader.addEventListener('load', imgLoaded);
+     fileReader.addEventListener('load', fileLoaded);
+        
         } 
 
         handleClose();
     }
 
-    const imgLoaded = (e) => {
-        let reader = e.target;
 
-        if (reader.readyState === 2) {
-            let img = reader.result;
-
-            setImg(img);
-        }
-    }
 
     const fileLoaded = (e) => {
             let reader = e.target;
