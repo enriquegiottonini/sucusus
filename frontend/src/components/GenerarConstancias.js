@@ -52,15 +52,15 @@ const GenerarConstancias = () => {
         getCurso();
         console.log("a"+id);
         console.log(curso.nombre);
-        //const doc = new jsPDF({orientation: "landscape"});
+        const doc = new jsPDF({orientation: "landscape"});
 
-        //doc.text(students[startIndex].name, 100, 100);
-        //doc.text(CursoService.getOne(id_curso).nombre, 120, 100);
+        doc.text(students[startIndex].name, 100, 100);
+        doc.text(CursoService.getOne(id_curso).nombre, 130, 60);
 
-        //doc.save("constancias.pdf");
-        /*for(let i = 1; i < endIndex; ++i) {
+        doc.save("constancias.pdf");
+        for(let i = 1; i < endIndex; ++i) {
 
-        }*/
+        }
     }
 
     function sendStudent(stu) {
@@ -70,10 +70,7 @@ const GenerarConstancias = () => {
                 });
 
     }
-    function getInfo(){
-        console.log("a"+start);
-        console.log("a"+end);
-    }
+
     const [globalStudents, addStudents] = useState([]);
     const [show, setShow] = useState(false);
 
@@ -140,7 +137,7 @@ const GenerarConstancias = () => {
                     i = data.indexOf(',');
                 }
 
-                generatePDFS(students, 0, 2);
+                generatePDFS(students, start, end);
 
             } else {
                 console.log("reader not ready.");
@@ -193,8 +190,17 @@ const GenerarConstancias = () => {
                             <label> Numero de sesión de consejo</label>
                             <input type="number" className="form-control" id="numsesion" ></input>
                         </div>
-                        <div className="d-flex flex-column justify-content-end form-group col mt-3 me-3">
-                            <input type="file" id="fileUpload" name="file" accept=".csv"></input>
+                        <div classname="d-flex flex-column justify-content-end form-group col mt-3 me-3">
+                            Archivo .csv de alumnos:
+                            <br></br>
+                            <input type="file" id="fileupload" name="file" accept=".csv"></input>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div classname="d-flex flex-column justify-content-end form-group col mt-3 me-3">
+                            Archivo .png de firma correspondiente: 
+                            <br></br>
+                            <input type="file" id="imgUpload" name="imgFile" accept=".png"></input>
                         </div>
                     </div>
                 </Modal.Body>
@@ -216,12 +222,7 @@ const GenerarConstancias = () => {
                             </Button>
                         </div>
                         <div class="col-sm float-right">
-                            <button className="btn btn-primary ml-3 float-right" onClick={getInfo}> Generar constancias</button>
-                            {/* <ReactToPdf>
-                                {({toPdf, targetRef}) =>  (
-                                    <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
-                                )}
-                            </ReactToPdf>  */}
+                            <button className="btn btn-primary ml-3 float-right" onClick={handleShow}> Generar constancias</button>
                         </div>
                     </div>
                 </div>
