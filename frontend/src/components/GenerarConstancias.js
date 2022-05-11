@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import React, {useState} from "react";
+import React, { useState, useEffect} from "react";
 import { data } from 'jquery';
 import { useParams } from "react-router-dom";
 import StudentService from '../services/StudentService';
@@ -12,6 +12,7 @@ import CursoService from "../services/CursoService"
 var students_2 = [];
 
 const GenerarConstancias = () => {
+    
     const [start, setStart] = useState(0)
     const [end, setEnd] = useState(0)
     const initialCursoState = {
@@ -41,17 +42,20 @@ const GenerarConstancias = () => {
         return stu;
     }
     function getCurso(){
-        CursoService.getOne(id)
+        CursoService.get1(id)
         .then(response => {
             setCurso(response.data);
             console.log(response.data);
             return;
         })
     }
-    function generatePDFS(students, startIndex, endIndex) {
+    useEffect(() => {
         getCurso();
+      }, []);
+    function generatePDFS(students, startIndex, endIndex) {
+       
         console.log("a"+id);
-        console.log(curso.nombre);
+        console.log("b"+curso.nombre);
         const doc = new jsPDF({orientation: "landscape"});
 
         doc.text(students[startIndex].name, 100, 100);

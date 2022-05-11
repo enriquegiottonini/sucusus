@@ -29,6 +29,7 @@ const CursoService = {
     remove,
     getOne,
     getCount,
+    get1
 };
 
 export default CursoService;
