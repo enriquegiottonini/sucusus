@@ -99,12 +99,17 @@ const GenerarConstancias = () => {
             student_name = students[i].name + " ";
             student_name += students[i].father_last + " ";
             student_name += students[i].mother_last;
-            doc.text(student_name, 100, 60);
+            doc.setFontSize(20);
+            doc.text(titulo, 78, 40);
+            doc.text(consejo, 95, 50);
+            doc.setFontSize(25);
+            doc.text(student_name, 105, 70);
+            doc.setFontSize(20);
+            doc.text(duration, 70, 90);
+            doc.text(fecha, 74, 110);
 
-            doc.text(course_name, 100, 80);
-            doc.text(duration, 100, 100);
-            doc.text(fecha, 100, 120);
-            if (signImg !== "") doc.addImage(signImg, 'PNG', 80, 140, 120, 80);
+            if (signImg !== "") doc.addImage(signImg, 'PNG', 110, 140, 80, 40);
+
         }
 
         doc.save("constancias.pdf");
@@ -150,7 +155,7 @@ const GenerarConstancias = () => {
             }
 
             if (uploadedFiles[0].type === "image/png") {
-                imgReader.readAsDataURL(uploadedFiles[0]).then(imgLoaded());
+                imgReader.readAsDataURL(uploadedFiles[0]);
                 fileReader.readAsText(uploadedFiles[1]);
             } else {
                 imgReader.readAsDataURL(uploadedFiles[1]);
@@ -158,11 +163,7 @@ const GenerarConstancias = () => {
             }
 
         
-    } 
-
-
- 
-
+        } 
     }
 
     const fileLoaded = async (e) => {
