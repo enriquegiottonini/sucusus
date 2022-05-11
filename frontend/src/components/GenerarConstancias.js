@@ -16,7 +16,7 @@ const GenerarConstancias = () => {
     const [end, setEnd] = useState(0)
     const initialCursoState = {
         id: null,
-        nombre: null,
+        nombre: "test",
         encargado: null,
         modalidad: "En linea",
         duracion: null,
@@ -55,8 +55,13 @@ const GenerarConstancias = () => {
         const doc = new jsPDF({orientation: "landscape"});
 
         doc.text(students[startIndex].name, 100, 100);
-        doc.text(CursoService.getOne(id_curso).nombre, 130, 60);
+        doc.text(curso.nombre, 130, 60);
 
+        for(let i = startIndex + 1; i <= endIndex; ++i) {
+            doc.addPage();            
+            doc.text(students[i].name, 100, 100);
+            doc.text(curso.nombre, 130, 60);
+        }
         doc.save("constancias.pdf");
         for(let i = 1; i < endIndex; ++i) {
 
@@ -89,8 +94,8 @@ const GenerarConstancias = () => {
         setShow(true);
 
         let reader;
-        if (document.getElementById('fileUpload').files != null && 
-            document.getElementById('fileUpload').files[0] != null) {
+        if (document.getElementById('fileUpload').files !== null && 
+            document.getElementById('fileUpload').files[0] !== null) {
 
             reader = new FileReader();
         
@@ -193,7 +198,7 @@ const GenerarConstancias = () => {
                         <div classname="d-flex flex-column justify-content-end form-group col mt-3 me-3">
                             Archivo .csv de alumnos:
                             <br></br>
-                            <input type="file" id="fileupload" name="file" accept=".csv"></input>
+                            <input type="file" id="fileUpload" name="file" accept=".csv"></input>
                         </div>
                     </div>
                     <div className="row">
