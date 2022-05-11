@@ -185,7 +185,7 @@ const User = (props) => {
               />
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="password">Contraseña</label>
               <Input
                 type="password"
@@ -195,7 +195,7 @@ const User = (props) => {
                 onChange={handleInputChange}
                 validations={[required, vpassword]}
               />
-            </div>
+            </div> */}
           </Form>
 
           <button
