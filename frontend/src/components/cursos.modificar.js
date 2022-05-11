@@ -14,7 +14,6 @@ import { useEffect, componentDidMount } from "react";
 const ModificarCurso = () => {
     let history = useHistory();
     const initialCursoState = {
-        id: null,
         nombre: null,
         encargado: null,
         modalidad: "En linea",
