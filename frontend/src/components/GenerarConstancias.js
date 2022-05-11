@@ -64,7 +64,7 @@ const GenerarConstancias = () => {
         const doc = new jsPDF({orientation: "landscape"});
         const titulo = "Constancia de acreditacion de evento formativo"
         const course_name = String(curso.tipo)+" "+String(curso.nombre);
-        const duration = "Por haber cumplido las "+String(curso.duracion)+" horas del evento de tipo "+String(curso.tipo);
+        const duration = "Por haber cumplido las "+String(curso.duracion)+" horas del evento "+String(curso.nombre)+" de tipo "+String(curso.tipo);
         const consejo = "El consejo de la " + String(curso.consejo) + " acredita a ";
         const fecha = "El cual tuvo lugar desde "+String(curso.fechainicio)+" hasta "+String(curso.fechafinal);
         const coso = "Consejo de la "+String(curso.consejo)
@@ -79,7 +79,7 @@ const GenerarConstancias = () => {
         doc.setFontSize(25);
         doc.text(student_name, 105, 70);
         doc.setFontSize(20);
-        doc.text(duration, 70, 90);
+        doc.text(duration, 45, 90);
         doc.text(fecha, 74, 110);
         
         if (signImg !== "") {
@@ -105,7 +105,7 @@ const GenerarConstancias = () => {
             doc.setFontSize(25);
             doc.text(student_name, 105, 70);
             doc.setFontSize(20);
-            doc.text(duration, 70, 90);
+            doc.text(duration, 45, 90);
             doc.text(fecha, 74, 110);
 
             if (signImg !== "") doc.addImage(signImg, 'PNG', 110, 140, 80, 40);
