@@ -12,7 +12,8 @@ import CursoService from "../services/CursoService"
 var students_2 = [];
 
 const GenerarConstancias = () => {
-
+    const [start, setStart] = useState(0)
+    const [end, setEnd] = useState(0)
     let { id_curso } = useParams();
 
     function student(name, father_last, mother_last, id_curso) {
@@ -45,7 +46,10 @@ const GenerarConstancias = () => {
                 });
 
     }
-
+    function getInfo(){
+        console.log("a"+start);
+        console.log("a"+end);
+    }
     const [globalStudents, addStudents] = useState([]);
     const [show, setShow] = useState(false);
 
@@ -124,6 +128,17 @@ const GenerarConstancias = () => {
         <div className = "w-100 h-100" id="student_page">
             <div className="align-items-left ms-3">
                 <h3>Generar Constancias de Acreditación</h3>
+                <h4>Insertar rango de alumnos</h4>
+                <div class="row">
+                <div class="col mt-3 ms-3">
+                    <label> Inicio </label>
+                    <input type="number" onChange={event => setStart(event.target.value)} class="form-control" id="inicio" name="inicio"></input>
+                </div>
+                <div class="form-group col mt-3 me-3">
+                    <label> Final </label>
+                    <input type="number" class="form-control"  onChange={event => setEnd(event.target.value)} id="final" name="final"></input>
+                </div>
+            </div>
             </div>
             <br></br>
             <br></br>
@@ -177,12 +192,21 @@ const GenerarConstancias = () => {
                             </Button>
                         </div>
                         <div class="col-sm float-right">
+<<<<<<< HEAD
                             <Link to={{pathname: `/mod/GenerarConstancias`}}>
                                 <a href="#" className="btn btn-primary ml-3 float-right" >Generar constancias</a>
                             </Link>
                             <Link to={{pathname: `/mod/GenerarConstancias`}}>
                                 <a href="#" className="btn btn-primary ml-3 float-right" >Seleccionar todos</a>
                             </Link> 
+=======
+                            <button className="btn btn-primary ml-3 float-right" onClick={getInfo}> Generar constancias</button>
+                            {/* <ReactToPdf>
+                                {({toPdf, targetRef}) =>  (
+                                    <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
+                                )}
+                            </ReactToPdf>  */}
+>>>>>>> e8e1ef63f8dc546ef4a505fdc7591763e00fcf46
                         </div>
                     </div>
                 </div>
