@@ -10,8 +10,8 @@ module.exports = (sequelize, Sequelize) => {
         apellido_materno: {
             type: Sequelize.STRING
         },
-        nombre_curso: {
-            type: Sequelize.STRING
+        id_curso: {
+            type: Sequelize.INTEGER
         }
     });
     return students;

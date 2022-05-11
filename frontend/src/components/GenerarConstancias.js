@@ -4,28 +4,42 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import React, {useState} from "react";
 import { data } from 'jquery';
+import { useParams } from "react-router-dom";
+import StudentService from '../services/StudentService';
 
+var students_2 = [];
 
 const GenerarConstancias = () => {
 
-    function student(name, father_last, mother_last, id) {
+    let { id_curso } = useParams();
+
+    function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
 
         stu.name = name;
         stu.father_last = father_last;
         stu.mother_last = mother_last;
-        stu.id = id;
+        stu.id_curso = id_curso;
         
         return stu;
     }
 
-    const [students, addStudents] = useState([]);
+    function sendStudent(stu) {
+        StudentService.create(stu).then(console.log('Yeaaaah')).
+            catch(e=>{
+                console.log(e);
+                });
+
+    }
+
+    const [globalStudents, addStudents] = useState([]);
     const [show, setShow] = useState(false);
 
     
     const handleClose = () => {
         setShow(false);
-        console.log(students);
+        console.log(globalStudents);
+        console.log(students_2);
     }
 
     function handleShow() {
@@ -77,14 +91,18 @@ const GenerarConstancias = () => {
                     let mothers_last = data.slice(0,i);
                     data = data.replace(mothers_last + "\n", "");
 
-                    students[n] = student(name, fathers_last, mothers_last, n + 1);
+                    students[n] = student(name, fathers_last, mothers_last, id_curso);
                     n++;
 
+                    sendStudent(students[n]);
                     console.log(name + " " + fathers_last + " " + mothers_last);
                     i = data.indexOf(',');
                 }
 
                 addStudents(students);
+                students_2 = students;
+                console.log(globalStudents);
+
             } else {
                 console.log("reader not ready.");
             }
@@ -108,7 +126,7 @@ const GenerarConstancias = () => {
                 </thead>
                 <tbody>
                     {
-                        students.map((st) => {
+                        students_2.map((st) => {
                             <tr key={st.id}>
                                 <td>{st.name}</td>
                                 <td>{st.father_last}</td>
