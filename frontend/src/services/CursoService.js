@@ -14,7 +14,7 @@ const remove = id => {
     return http.delete(`/mod/cursos/${id}`);
 };
 const getOne = (id) => {
-    return http.get(`/mod/cursos/ModificarCurso/`);
+    return http.get(`/mod/cursos/ModificarCurso/${id}`);
 };
 const get1 = (id) => {
     return http.get(`/mod/cursos/GenerarConstancias/${id}`);

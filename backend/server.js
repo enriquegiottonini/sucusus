@@ -28,6 +28,20 @@ db.sequelize.sync( {alter: true} ).then(() => {
   console.log('Drop and Resync Db');
 })
 
+ /* // CREATE ADMIN 
+ User.create({
+  username: "admin",
+  nombre: "",
+  apellido_p: "",
+  apellido_m: "",
+  email: "",
+  password: bcrypt.hashSync("admin", 8)
+})
+.then(user => {
+      user.setRoles([3])
+    });
+} */
+
 
 // simple route
 app.get("/", (req, res) => {
