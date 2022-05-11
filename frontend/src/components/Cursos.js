@@ -16,7 +16,7 @@ function Cursos() {
           <Route exact path="/mod/AgregarCurso" component={AddCurso}/>
           <Route exact path="/mod" component={ListaCursos}/>
           <Route exact path="/mod/ModificarCurso/:id" component={ModificarCurso}/>
-          <Route exact path="/mod/GenerarConstancias" component={GenerarConstancias}/>
+          <Route exact path="/mod/GenerarConstancias/:id" component={GenerarConstancias}/>
           <Route exact path="/mod/SubirCSV" component={SubirCSV}/>
         </Switch>
       </div>

@@ -125,7 +125,7 @@ const ListaCursos = () =>{
                                 <a href="#" className="btn btn-primary mr-3">Editar</a>
                             </Link> 
                             <button className="btn btn-primary" onClick={() => EliminarCurso(cursos.id, cursos.nombre)}>Eliminar</button>
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
+                            <Link to={{pathname: `/mod/GenerarConstancias/${cursos.id}`}}>
                                 <a href="#" className="btn btn-primary ml-3" onClick={() => {console.log(cursos)}}>Generar Constancias</a>
                             </Link> 
                         </div>
