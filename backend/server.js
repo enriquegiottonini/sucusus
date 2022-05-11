@@ -19,14 +19,15 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 const Role = db.role;
 const User = db.user;
-
 const Op = db.Sequelize.Op;
 
 var bcrypt = require("bcryptjs");
 
+
 db.sequelize.sync( {alter: true} ).then(() => {
   console.log('Drop and Resync Db');
 })
+
 
 // simple route
 app.get("/", (req, res) => {

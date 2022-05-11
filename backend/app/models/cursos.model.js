@@ -29,6 +29,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         addedby:{
             type: Sequelize.INTEGER
+        },
+        tipo : {
+            type: Sequelize.STRING
         }
     });
     return Cursos;
