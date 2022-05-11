@@ -18,7 +18,7 @@ import { clearMessage } from "./actions/message";
 
 import { history } from "./helpers/history";
 
-// import AuthVerify from "./common/AuthVerify";
+import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
 
 const App = () => {
@@ -137,7 +137,7 @@ const App = () => {
           </Switch>
         </div>
 
-        {/* <AuthVerify logOut={logOut}/> */}
+        { <AuthVerify logOut={logOut}/>}
       </div>
     </Router>
   );

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser, deleteUser } from "../actions/admin";
 import AdminService from "../services/AdminService";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { isEmail } from "validator";
-
+import { logout } from "../actions/auth";
 const required = (value) => {
   if (!value) {
     return (
@@ -79,6 +79,7 @@ const vpassword = (value) => {
 
 const User = (props) => {
   const form = useRef();
+  const { user: admin } = useSelector((state) => state.auth);
 
   const initialUserState = {
     id: null,
@@ -130,6 +131,8 @@ const User = (props) => {
       .catch((e) => {
         console.log(e);
       });
+
+    if(admin.id != 1) dispatch(logout());
   };
   return (
     <div>
@@ -206,7 +209,10 @@ const User = (props) => {
             Actualizar
           </button>
 
-          <button className="btn badge-danger mr-2 float-right" onClick={removeUser}>
+          <button
+            className="btn badge-danger mr-2 float-right"
+            onClick={removeUser}
+          >
             Eliminar Cuenta
           </button>
 
