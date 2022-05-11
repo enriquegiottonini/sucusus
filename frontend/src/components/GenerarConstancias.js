@@ -6,6 +6,7 @@ import React, {useState} from "react";
 import { data } from 'jquery';
 import { useParams } from "react-router-dom";
 import StudentService from '../services/StudentService';
+import { jsPDF } from "jspdf";
 
 var students_2 = [];
 
@@ -22,6 +23,10 @@ const GenerarConstancias = () => {
         stu.id_curso = id_curso;
         
         return stu;
+    }
+
+    function generatePDFS(students, startIndex, endIndex) {
+
     }
 
     function sendStudent(stu) {
@@ -99,9 +104,7 @@ const GenerarConstancias = () => {
                     i = data.indexOf(',');
                 }
 
-                addStudents(students);
-                students_2 = students;
-                console.log(globalStudents);
+                generatePDFS(students, startIndex, endIndex);
 
             } else {
                 console.log("reader not ready.");
@@ -115,27 +118,6 @@ const GenerarConstancias = () => {
                 <h3>Generar Constancias de Acreditación</h3>
             </div>
             <br></br>
-            <table class="table" id="student_table">
-                <thead className="thead-dark">
-                    <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido paterno</th>
-                    <th scope="col">Apellido materno</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        students_2.map((st) => {
-                            <tr key={st.id}>
-                                <td>{st.name}</td>
-                                <td>{st.father_last}</td>
-                                <td>{st.mother_last}</td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </table>
             <br></br>
             <br></br>
 
@@ -189,7 +171,12 @@ const GenerarConstancias = () => {
                         <div class="col-sm float-right">
                             <Link to={{pathname: `/mod/GenerarConstancias`}}>
                                 <a href="#" className="btn btn-primary ml-3 float-right" >Generar constancias</a>
-                            </Link> 
+                            </Link>
+                            <ReactToPdf>
+                                {({toPdf, targetRef}) =>  (
+                                    <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
+                                )}
+                            </ReactToPdf> 
                             <Link to={{pathname: `/mod/GenerarConstancias`}}>
                                 <a href="#" className="btn btn-primary ml-3 float-right" >Seleccionar todos</a>
                             </Link> 
