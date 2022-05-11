@@ -18,10 +18,17 @@ app.use(express.urlencoded({ extended: true }));
 // database
 const db = require("./app/models");
 const Role = db.role;
- db.sequelize.sync( {alter: true} ).then(() => {
-  console.log('Create or change tables');
-  //initial();
+const User = db.user;
+
+const Op = db.Sequelize.Op;
+
+var bcrypt = require("bcryptjs");
+
+   db.sequelize.sync( {alter: true} ).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
 });
+/*
 function initial() {
   Role.create({
     id: 1,
@@ -37,7 +44,19 @@ function initial() {
     id: 3,
     name: "admin"
   });
-}
+  // CREATE ADMIN 
+  User.create({
+    username: "admin",
+    nombre: "",
+    apellido_p: "",
+    apellido_m: "",
+    email: "",
+    password: bcrypt.hashSync("admin", 8)
+  })
+  .then(user => {
+        user.setRoles([3])
+      });
+} */
 
 // simple route
 app.get("/", (req, res) => {
