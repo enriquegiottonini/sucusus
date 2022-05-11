@@ -31,7 +31,7 @@ const GenerarConstancias = () => {
         const doc = new jsPDF({orientation: "landscape"});
 
         doc.text(students[startIndex].name, 100, 100);
-        doc.text(CursoService.getOne(id_curso).nombre, 120, 100);
+        doc.text(CursoService.getOne(id_curso).nombre, 130, 60);
 
         doc.save("constancias.pdf");
         for(let i = 1; i < endIndex; ++i) {
@@ -192,21 +192,12 @@ const GenerarConstancias = () => {
                             </Button>
                         </div>
                         <div class="col-sm float-right">
-<<<<<<< HEAD
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
-                                <a href="#" className="btn btn-primary ml-3 float-right" >Generar constancias</a>
-                            </Link>
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
-                                <a href="#" className="btn btn-primary ml-3 float-right" >Seleccionar todos</a>
-                            </Link> 
-=======
                             <button className="btn btn-primary ml-3 float-right" onClick={getInfo}> Generar constancias</button>
                             {/* <ReactToPdf>
                                 {({toPdf, targetRef}) =>  (
                                     <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
                                 )}
                             </ReactToPdf>  */}
->>>>>>> e8e1ef63f8dc546ef4a505fdc7591763e00fcf46
                         </div>
                     </div>
                 </div>
