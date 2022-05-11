@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 //import StudentService from '../services/StudentService';
 import { jsPDF } from "jspdf";
 import CursoService from "../services/CursoService"
+import constancia from "./Images/CertificadoReconocimientoDoradoOscuro.jpg";
 
 const GenerarConstancias = () => {
     
@@ -69,7 +70,8 @@ const GenerarConstancias = () => {
         let student_name = students[startIndex].name + " ";
         student_name += students[startIndex].father_last + " ";
         student_name += students[startIndex].mother_last;
-        doc.text(student_name, 100, 60);
+
+        doc.text(" " + student_name, 100, 60);
         doc.text(course_name, 100, 80);
         doc.text(duration, 100, 100);
         doc.text(fecha, 100, 120);
