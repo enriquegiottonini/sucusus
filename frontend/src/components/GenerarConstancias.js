@@ -9,8 +9,6 @@ import StudentService from '../services/StudentService';
 import { jsPDF } from "jspdf";
 import CursoService from "../services/CursoService"
 
-var students_2 = [];
-
 const GenerarConstancias = () => {
     
     const [start, setStart] = useState(0)
@@ -28,8 +26,11 @@ const GenerarConstancias = () => {
         fechafinal: null,
         tipo: "Curso"
     }
+
     const [curso, setCurso] = useState(initialCursoState);
     let { id } = useParams();
+
+    const [signImg, setImg] = useState("");
 
     function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
@@ -41,6 +42,7 @@ const GenerarConstancias = () => {
         
         return stu;
     }
+
     function getCurso(){
         CursoService.get1(id)
         .then(response => {
@@ -49,29 +51,49 @@ const GenerarConstancias = () => {
             return;
         })
     }
+
     useEffect(() => {
         getCurso();
       }, []);
+
     function generatePDFS(students, startIndex, endIndex) {
        
         console.log("a"+id);
         const doc = new jsPDF({orientation: "landscape"});
         
-        let name = "Ing. de Software";
+        let course_name = "Ing. de Software";
         let duration = "80 horas";
         let fecha = "7 de marzo de 2022, Hermosillo, Sonora.";
 
-        doc.text(students[startIndex].name + students[startIndex].father_last + students[startIndex].mother_last, 100, 60);
-        doc.text(name, 100, 80);
+        let student_name = students[startIndex].name + " ";
+        student_name += students[startIndex].father_last + " ";
+        student_name += students[startIndex].mother_last;
+        doc.text(student_name, 100, 60);
+        doc.text(course_name, 100, 80);
         doc.text(duration, 100, 100);
         doc.text(fecha, 100, 120);
 
+        console.log(signImg);
+        if (signImg !== "") {
+            let sign = new Image();
+            sign.src = signImg;
+
+            doc.addImage(signImg, 'PNG', 80, 140, 120, 80);
+        }
+
         console.log(students);
-        
-        for(let i = startIndex + 1; i <= endIndex; i++) {
+        console.log(startIndex);
+        console.log(endIndex);
+
+        for(let i = parseInt(startIndex + 1); i <= endIndex; i++) {
             doc.addPage();            
-            doc.text(students[i].name + students[i].father_last + students[i].mother_last, 100, 60);
-            doc.text(name, 100, 80);
+
+            student_name = students[i].name + " ";
+            student_name += students[i].father_last + " ";
+            student_name += students[i].mother_last;
+            doc.text(student_name, 100, 60);
+
+            doc.text(course_name, 100, 80);
             doc.text(duration, 100, 100);
             doc.text(fecha, 100, 120);
         }
@@ -87,14 +109,11 @@ const GenerarConstancias = () => {
 
     }
 
-    const [globalStudents, addStudents] = useState([]);
     const [show, setShow] = useState(false);
 
     
     const handleClose = () => {
         setShow(false);
-        console.log(globalStudents);
-        console.log(students_2);
     }
 
     function handleShow() {
@@ -104,19 +123,39 @@ const GenerarConstancias = () => {
     const saveStudents = () => {
         setShow(true);
 
-        let reader;
+        let fileReader;
+        let imgReader;
 
-        if (document.getElementById('fileUpload').files !== null && 
-            document.getElementById('fileUpload').files[0] !== null) {
+        let uploadedFiles = document.getElementById('fileUpload').files;
+        if (uploadedFiles !== null && 
+            uploadedFiles[0] !== null && uploadedFiles[1] !== null) {
+            
+            fileReader = new FileReader();
+            imgReader = new FileReader();
 
-            reader = new FileReader();
-        
-            reader.readAsText(document.getElementById('fileUpload').files[0]);
-
-            reader.addEventListener('load', fileLoaded);
+            if (uploadedFiles[0].type === "image/png") {
+                imgReader.readAsDataURL(uploadedFiles[0]);
+                fileReader.readAsText(uploadedFiles[1]);
+            } else {
+                imgReader.readAsDataURL(uploadedFiles[1]);
+                fileReader.readAsText(uploadedFiles[0]);
+            }
+            
+            imgReader.addEventListener('load', imgLoaded);
+            fileReader.addEventListener('load', fileLoaded);
         } 
 
         handleClose();
+    }
+
+    const imgLoaded = (e) => {
+        let reader = e.target;
+
+        if (reader.readyState === 2) {
+            let img = reader.result;
+
+            setImg(img);
+        }
     }
 
     const fileLoaded = (e) => {
@@ -208,16 +247,9 @@ const GenerarConstancias = () => {
                             <input type="number" className="form-control" id="numsesion" ></input>
                         </div>
                         <div classname="d-flex flex-column justify-content-end form-group col mt-3 me-3">
-                            Archivo .csv de alumnos:
+                            Archivo .csv de alumnos y firma en .png:
                             <br></br>
-                            <input type="file" id="fileUpload" name="file" accept=".csv"></input>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div classname="d-flex flex-column justify-content-end form-group col mt-3 me-3">
-                            Archivo .png de firma correspondiente: 
-                            <br></br>
-                            <input type="file" id="imgUpload" name="imgFile" accept=".png"></input>
+                            <input type="file" id="fileUpload" name="file" accept=".csv, .png" multiple="multiple"></input>
                         </div>
                     </div>
                 </Modal.Body>
