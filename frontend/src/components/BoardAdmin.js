@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AddUser from "./AddUser";
 import UserList from "./UserList";
 import User from "./User";
+import Register from "./Register";
 
 const BoardAdmin = () => {
   const [content, setContent] = useState("");
@@ -56,8 +57,14 @@ const BoardAdmin = () => {
                 Cuentas
               </Link>
             </li>
-            <li className="nav-item">
+{/*             <li className="nav-item">
               <Link to={"/add"} className="nav-link">
+                Agregar
+              </Link>
+            </li> */}
+
+            <li className="nav-item">
+              <Link to={"/register"} className="nav-link">
                 Agregar
               </Link>
             </li>
@@ -68,6 +75,7 @@ const BoardAdmin = () => {
             <Route exact path={["/mod/get"]} component={UserList} />
             <Route exact path="/add" component={AddUser} />
             <Route path="/mod/get/:id" component={User} />
+            <Route exact path="/register" component={Register} />
           </Switch>
         </div>
       </Router>

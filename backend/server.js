@@ -20,6 +20,7 @@ const db = require("./app/models");
 const Role = db.role;
 const User = db.user;
 
+db.sequelize.sync( {alter: true} ).then(() => {
 const Op = db.Sequelize.Op;
 
 var bcrypt = require("bcryptjs");
@@ -44,6 +45,8 @@ function initial() {
     id: 3,
     name: "admin"
   });
+} 
+
   // CREATE ADMIN 
   User.create({
     username: "admin",
