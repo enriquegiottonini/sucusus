@@ -50,6 +50,13 @@ const ModificarCurso = () => {
             window.alert("El numero de sesion introducido no es valido.");
             return;
         }
+        for (const key in curso) {
+            if(curso[key]==null||String(curso[key].trim)==""){
+                window.alert("Los campos no pueden estar vacios.");
+                console.log(`${key}: ${curso[key]}`);
+                return;
+            }
+        }
         var data = {
             nombre: curso.nombre,
             encargado: curso.encargado,
