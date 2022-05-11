@@ -51,21 +51,28 @@ const GenerarConstancias = () => {
     function generatePDFS(students, startIndex, endIndex) {
         getCurso();
         console.log("a"+id);
-        console.log(curso.nombre);
         const doc = new jsPDF({orientation: "landscape"});
+        
+        let name = "Ing. de Software";
+        let duration = "80 horas";
+        let fecha = "7 de marzo de 2022, Hermosillo, Sonora.";
 
-        doc.text(students[startIndex].name, 100, 100);
-        doc.text(curso.nombre, 130, 60);
+        doc.text(students[startIndex].name + students[startIndex].father_last + students[startIndex].mother_last, 100, 60);
+        doc.text(name, 100, 80);
+        doc.text(duration, 100, 100);
+        doc.text(fecha, 100, 120);
 
-        for(let i = startIndex + 1; i <= endIndex; ++i) {
+        console.log(students);
+        
+        for(let i = startIndex + 1; i <= endIndex; i++) {
             doc.addPage();            
-            doc.text(students[i].name, 100, 100);
-            doc.text(curso.nombre, 130, 60);
+            doc.text(students[i].name + students[i].father_last + students[i].mother_last, 100, 60);
+            doc.text(name, 100, 80);
+            doc.text(duration, 100, 100);
+            doc.text(fecha, 100, 120);
         }
-        doc.save("constancias.pdf");
-        for(let i = 1; i < endIndex; ++i) {
 
-        }
+        doc.save("constancias.pdf");
     }
 
     function sendStudent(stu) {
@@ -94,6 +101,7 @@ const GenerarConstancias = () => {
         setShow(true);
 
         let reader;
+
         if (document.getElementById('fileUpload').files !== null && 
             document.getElementById('fileUpload').files[0] !== null) {
 
