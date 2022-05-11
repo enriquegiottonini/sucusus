@@ -36,7 +36,7 @@ const AddCurso = () => {
             return;
         }
         for (const key in curso) {
-            if(curso[key]==null||String(curso[key].trim)==""){
+            if(curso[key]==null||String(curso[key]).trim().length===0){
                 window.alert("Los campos no pueden estar vacios.");
                 console.log(`${key}: ${curso[key]}`);
                 return;

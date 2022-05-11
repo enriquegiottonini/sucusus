@@ -14,6 +14,7 @@ import { useEffect, componentDidMount } from "react";
 const ModificarCurso = () => {
     let history = useHistory();
     const initialCursoState = {
+        id: null,
         nombre: null,
         encargado: null,
         modalidad: "En linea",
@@ -50,9 +51,9 @@ const ModificarCurso = () => {
             return;
         }
         for (const key in curso) {
-            if(curso[key]==null||String(curso[key].trim)==""){
+            if(curso[key]==null||String(curso[key]).trim().length===0){
                 window.alert("Los campos no pueden estar vacios.");
-                console.log(`${key}: ${curso[key]}`);
+                
                 return;
             }
         }
