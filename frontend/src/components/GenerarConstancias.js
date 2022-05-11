@@ -14,7 +14,7 @@ var students_2 = [];
 const GenerarConstancias = () => {
     const [start, setStart] = useState(0)
     const [end, setEnd] = useState(0)
-    let { id_curso } = useParams();
+    let { id } = useParams();
 
     function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
@@ -28,15 +28,22 @@ const GenerarConstancias = () => {
     }
 
     function generatePDFS(students, startIndex, endIndex) {
-        const doc = new jsPDF({orientation: "landscape"});
+        CursoService.getOne(2)
+            .then(response => {
+                //setCurso(response.data);
+                console.log(response.data);
+                return;
+            })
+        console.log("a"+id);
+        //const doc = new jsPDF({orientation: "landscape"});
 
-        doc.text(students[startIndex].name, 100, 100);
-        doc.text(CursoService.getOne(id_curso).nombre, 120, 100);
+        //doc.text(students[startIndex].name, 100, 100);
+        //doc.text(CursoService.getOne(id_curso).nombre, 120, 100);
 
-        doc.save("constancias.pdf");
-        for(let i = 1; i < endIndex; ++i) {
+        //doc.save("constancias.pdf");
+        /*for(let i = 1; i < endIndex; ++i) {
 
-        }
+        }*/
     }
 
     function sendStudent(stu) {
@@ -109,7 +116,7 @@ const GenerarConstancias = () => {
                     let mothers_last = data.slice(0,i);
                     data = data.replace(mothers_last + "\n", "");
 
-                    students[n] = student(name, fathers_last, mothers_last, id_curso);
+                    students[n] = student(name, fathers_last, mothers_last, id);
                     n++;
 
                     console.log(name + " " + fathers_last + " " + mothers_last);
@@ -192,21 +199,12 @@ const GenerarConstancias = () => {
                             </Button>
                         </div>
                         <div class="col-sm float-right">
-<<<<<<< HEAD
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
-                                <a href="#" className="btn btn-primary ml-3 float-right" >Generar constancias</a>
-                            </Link>
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
-                                <a href="#" className="btn btn-primary ml-3 float-right" >Seleccionar todos</a>
-                            </Link> 
-=======
                             <button className="btn btn-primary ml-3 float-right" onClick={getInfo}> Generar constancias</button>
                             {/* <ReactToPdf>
                                 {({toPdf, targetRef}) =>  (
                                     <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
                                 )}
                             </ReactToPdf>  */}
->>>>>>> e8e1ef63f8dc546ef4a505fdc7591763e00fcf46
                         </div>
                     </div>
                 </div>
