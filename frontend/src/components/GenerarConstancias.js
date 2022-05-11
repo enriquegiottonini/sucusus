@@ -31,6 +31,7 @@ const GenerarConstancias = () => {
     let { id } = useParams();
 
     const [signImg, setImg] = useState("");
+    const [firstTime, setFirstTime] = useState("true");
 
     function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
@@ -191,7 +192,12 @@ const GenerarConstancias = () => {
                     i = data.indexOf(',');
                 }
 
-                generatePDFS(students, start, end);
+                if(firstTime === "true" ) {
+                    setFirstTime("second");
+                    saveStudents();
+                } else if (firstTime === "second") {
+                    generatePDFS(students, start, end);
+                }
 
             } else {
                 console.log("reader not ready.");
