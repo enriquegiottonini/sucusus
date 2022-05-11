@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import React, { useState, useEffect} from "react";
 import { data } from 'jquery';
 import { useParams } from "react-router-dom";
-import StudentService from '../services/StudentService';
+//import StudentService from '../services/StudentService';
 import { jsPDF } from "jspdf";
 import CursoService from "../services/CursoService"
 
@@ -73,7 +73,6 @@ const GenerarConstancias = () => {
         doc.text(duration, 100, 100);
         doc.text(fecha, 100, 120);
 
-        console.log(signImg);
         if (signImg !== "") {
             let sign = new Image();
             sign.src = signImg;
@@ -85,7 +84,7 @@ const GenerarConstancias = () => {
         console.log(startIndex);
         console.log(endIndex);
 
-        for(let i = parseInt(startIndex + 1); i <= endIndex; i++) {
+        for(let i = parseInt(startIndex) + 1; i <= parseInt(endIndex); i++) {
             doc.addPage();            
 
             student_name = students[i].name + " ";
@@ -96,18 +95,19 @@ const GenerarConstancias = () => {
             doc.text(course_name, 100, 80);
             doc.text(duration, 100, 100);
             doc.text(fecha, 100, 120);
+            if (signImg !== "") doc.addImage(signImg, 'PNG', 80, 140, 120, 80);
         }
 
         doc.save("constancias.pdf");
     }
 
-    function sendStudent(stu) {
-        StudentService.create(stu).then(console.log('Yeaaaah')).
-            catch(e=>{
-                console.log(e);
-                });
+    //function sendStudent(stu) {
+        //StudentService.create(stu).then(console.log('Yeaaaah')).
+            //catch(e=>{
+                //console.log(e);
+                //});
 
-    }
+    //}
 
     const [show, setShow] = useState(false);
 
