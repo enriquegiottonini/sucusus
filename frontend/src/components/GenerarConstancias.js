@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 import React, {useState} from "react";
 import { data } from 'jquery';
 
-let studentsArr;
 
 const GenerarConstancias = () => {
 
@@ -23,9 +22,10 @@ const GenerarConstancias = () => {
     const [students, addStudents] = useState([]);
     const [show, setShow] = useState(false);
 
-
+    
     const handleClose = () => {
         setShow(false);
+        console.log(students);
     }
 
     function handleShow() {
@@ -47,7 +47,6 @@ const GenerarConstancias = () => {
         } 
 
         handleClose();
-        window.location.reload();
     }
 
     const fileLoaded = (e) => {
@@ -85,7 +84,7 @@ const GenerarConstancias = () => {
                     i = data.indexOf(',');
                 }
 
-                studentsArr = students;
+                addStudents(students);
             } else {
                 console.log("reader not ready.");
             }
