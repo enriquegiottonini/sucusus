@@ -6,5 +6,6 @@ module.exports = app =>{
     router.get("/ModificarCurso/:id", cursos.getOne);
     router.put("/:id", cursos.update);
     router.delete("/:id", cursos.delete);
+    router.get("/GenerarConstancias/:id", cursos.getOne);
     app.use('/api/mod/cursos', router);
 };

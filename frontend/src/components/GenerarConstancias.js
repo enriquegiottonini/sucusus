@@ -2,30 +2,118 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import React, {useState} from "react";
+import React, { useState, useEffect} from "react";
 import { data } from 'jquery';
-
+import { useParams } from "react-router-dom";
+import StudentService from '../services/StudentService';
+import { jsPDF } from "jspdf";
+import CursoService from "../services/CursoService"
 
 const GenerarConstancias = () => {
+    
+    const [start, setStart] = useState(0)
+    const [end, setEnd] = useState(0)
+    const initialCursoState = {
+        id: null,
+        nombre: "test",
+        encargado: null,
+        modalidad: "En linea",
+        duracion: null,
+        numsesion: null,
+        fechasesion: null,
+        consejo: null,
+        fechainicio: null,
+        fechafinal: null,
+        tipo: "Curso"
+    }
 
-    function student(name, father_last, mother_last, id) {
+    const [curso, setCurso] = useState(initialCursoState);
+    let { id } = useParams();
+
+    const [signImg, setImg] = useState("");
+
+    function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
 
         stu.name = name;
         stu.father_last = father_last;
         stu.mother_last = mother_last;
-        stu.id = id;
+        stu.id_curso = id_curso;
         
         return stu;
     }
 
-    const [students, addStudents] = useState([]);
+    function getCurso(){
+        CursoService.get1(id)
+        .then(response => {
+            setCurso(response.data);
+            console.log(response.data);
+            return;
+        })
+    }
+
+    useEffect(() => {
+        getCurso();
+      }, []);
+
+    function generatePDFS(students, startIndex, endIndex) {
+       
+        console.log("a"+id);
+        const doc = new jsPDF({orientation: "landscape"});
+        
+        let course_name = "Ing. de Software";
+        let duration = "80 horas";
+        let fecha = "7 de marzo de 2022, Hermosillo, Sonora.";
+
+        let student_name = students[startIndex].name + " ";
+        student_name += students[startIndex].father_last + " ";
+        student_name += students[startIndex].mother_last;
+        doc.text(student_name, 100, 60);
+        doc.text(course_name, 100, 80);
+        doc.text(duration, 100, 100);
+        doc.text(fecha, 100, 120);
+
+        console.log(signImg);
+        if (signImg !== "") {
+            let sign = new Image();
+            sign.src = signImg;
+
+            doc.addImage(signImg, 'PNG', 80, 140, 120, 80);
+        }
+
+        console.log(students);
+        console.log(startIndex);
+        console.log(endIndex);
+
+        for(let i = parseInt(startIndex + 1); i <= endIndex; i++) {
+            doc.addPage();            
+
+            student_name = students[i].name + " ";
+            student_name += students[i].father_last + " ";
+            student_name += students[i].mother_last;
+            doc.text(student_name, 100, 60);
+
+            doc.text(course_name, 100, 80);
+            doc.text(duration, 100, 100);
+            doc.text(fecha, 100, 120);
+        }
+
+        doc.save("constancias.pdf");
+    }
+
+    function sendStudent(stu) {
+        StudentService.create(stu).then(console.log('Yeaaaah')).
+            catch(e=>{
+                console.log(e);
+                });
+
+    }
+
     const [show, setShow] = useState(false);
 
     
     const handleClose = () => {
         setShow(false);
-        console.log(students);
     }
 
     function handleShow() {
@@ -35,18 +123,39 @@ const GenerarConstancias = () => {
     const saveStudents = () => {
         setShow(true);
 
-        let reader;
-        if (document.getElementById('fileUpload').files != null && 
-            document.getElementById('fileUpload').files[0] != null) {
+        let fileReader;
+        let imgReader;
 
-            reader = new FileReader();
-        
-            reader.readAsText(document.getElementById('fileUpload').files[0]);
+        let uploadedFiles = document.getElementById('fileUpload').files;
+        if (uploadedFiles !== null && 
+            uploadedFiles[0] !== null && uploadedFiles[1] !== null) {
+            
+            fileReader = new FileReader();
+            imgReader = new FileReader();
 
-            reader.addEventListener('load', fileLoaded);
+            if (uploadedFiles[0].type === "image/png") {
+                imgReader.readAsDataURL(uploadedFiles[0]);
+                fileReader.readAsText(uploadedFiles[1]);
+            } else {
+                imgReader.readAsDataURL(uploadedFiles[1]);
+                fileReader.readAsText(uploadedFiles[0]);
+            }
+            
+            imgReader.addEventListener('load', imgLoaded);
+            fileReader.addEventListener('load', fileLoaded);
         } 
 
         handleClose();
+    }
+
+    const imgLoaded = (e) => {
+        let reader = e.target;
+
+        if (reader.readyState === 2) {
+            let img = reader.result;
+
+            setImg(img);
+        }
     }
 
     const fileLoaded = (e) => {
@@ -77,14 +186,15 @@ const GenerarConstancias = () => {
                     let mothers_last = data.slice(0,i);
                     data = data.replace(mothers_last + "\n", "");
 
-                    students[n] = student(name, fathers_last, mothers_last, n + 1);
+                    students[n] = student(name, fathers_last, mothers_last, id);
                     n++;
 
                     console.log(name + " " + fathers_last + " " + mothers_last);
                     i = data.indexOf(',');
                 }
 
-                addStudents(students);
+                generatePDFS(students, start, end);
+
             } else {
                 console.log("reader not ready.");
             }
@@ -95,29 +205,19 @@ const GenerarConstancias = () => {
         <div className = "w-100 h-100" id="student_page">
             <div className="align-items-left ms-3">
                 <h3>Generar Constancias de Acreditación</h3>
+                <h4>Insertar rango de alumnos</h4>
+                <div class="row">
+                <div class="col mt-3 ms-3">
+                    <label> Inicio </label>
+                    <input type="number" onChange={event => setStart(event.target.value)} class="form-control" id="inicio" name="inicio"></input>
+                </div>
+                <div class="form-group col mt-3 me-3">
+                    <label> Final </label>
+                    <input type="number" class="form-control"  onChange={event => setEnd(event.target.value)} id="final" name="final"></input>
+                </div>
+            </div>
             </div>
             <br></br>
-            <table class="table" id="student_table">
-                <thead className="thead-dark">
-                    <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido paterno</th>
-                    <th scope="col">Apellido materno</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        students.map((st) => {
-                            <tr key={st.id}>
-                                <td>{st.name}</td>
-                                <td>{st.father_last}</td>
-                                <td>{st.mother_last}</td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </table>
             <br></br>
             <br></br>
 
@@ -146,8 +246,10 @@ const GenerarConstancias = () => {
                             <label> Numero de sesión de consejo</label>
                             <input type="number" className="form-control" id="numsesion" ></input>
                         </div>
-                        <div className="d-flex flex-column justify-content-end form-group col mt-3 me-3">
-                            <input type="file" id="fileUpload" name="file" accept=".csv"></input>
+                        <div classname="d-flex flex-column justify-content-end form-group col mt-3 me-3">
+                            Archivo .csv de alumnos y firma en .png:
+                            <br></br>
+                            <input type="file" id="fileUpload" name="file" accept=".csv, .png" multiple="multiple"></input>
                         </div>
                     </div>
                 </Modal.Body>
@@ -169,12 +271,7 @@ const GenerarConstancias = () => {
                             </Button>
                         </div>
                         <div class="col-sm float-right">
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
-                                <a href="#" className="btn btn-primary ml-3 float-right" >Generar constancias</a>
-                            </Link> 
-                            <Link to={{pathname: `/mod/GenerarConstancias`}}>
-                                <a href="#" className="btn btn-primary ml-3 float-right" >Seleccionar todos</a>
-                            </Link> 
+                            <button className="btn btn-primary ml-3 float-right" onClick={handleShow}> Generar constancias</button>
                         </div>
                     </div>
                 </div>

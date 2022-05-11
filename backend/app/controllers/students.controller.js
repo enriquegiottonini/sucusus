@@ -14,7 +14,7 @@ exports.create = (req, res) => {
         nombre: req.body.nombre,
         apellido_materno: req.body.apellido_materno,
         apellido_paterno: req.body.apellido_paterno,
-        nombre_curso: req.body.nombre_curso,
+        id_curso: req.body.id_curso,
     };
     Student.create(student)
     .then(data=>{
