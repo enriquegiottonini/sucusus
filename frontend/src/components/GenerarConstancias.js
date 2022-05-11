@@ -7,6 +7,7 @@ import { data } from 'jquery';
 import { useParams } from "react-router-dom";
 import StudentService from '../services/StudentService';
 import { jsPDF } from "jspdf";
+import CursoService from "../services/CursoService"
 
 var students_2 = [];
 
@@ -26,7 +27,15 @@ const GenerarConstancias = () => {
     }
 
     function generatePDFS(students, startIndex, endIndex) {
+        const doc = new jsPDF({orientation: "landscape"});
 
+        doc.text(students[startIndex].name, 100, 100);
+        doc.text(CursoService.getOne(id_curso).nombre, 120, 100);
+
+        doc.save("constancias.pdf");
+        for(let i = 1; i < endIndex; ++i) {
+
+        }
     }
 
     function sendStudent(stu) {
@@ -99,12 +108,11 @@ const GenerarConstancias = () => {
                     students[n] = student(name, fathers_last, mothers_last, id_curso);
                     n++;
 
-                    sendStudent(students[n]);
                     console.log(name + " " + fathers_last + " " + mothers_last);
                     i = data.indexOf(',');
                 }
 
-                generatePDFS(students, startIndex, endIndex);
+                generatePDFS(students, 0, 2);
 
             } else {
                 console.log("reader not ready.");
@@ -172,11 +180,6 @@ const GenerarConstancias = () => {
                             <Link to={{pathname: `/mod/GenerarConstancias`}}>
                                 <a href="#" className="btn btn-primary ml-3 float-right" >Generar constancias</a>
                             </Link>
-                            <ReactToPdf>
-                                {({toPdf, targetRef}) =>  (
-                                    <div style={{width: 500, height: 500, background: 'red'}} onClick={toPdf} ref={targetRef}/>
-                                )}
-                            </ReactToPdf> 
                             <Link to={{pathname: `/mod/GenerarConstancias`}}>
                                 <a href="#" className="btn btn-primary ml-3 float-right" >Seleccionar todos</a>
                             </Link> 
