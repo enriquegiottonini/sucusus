@@ -14,7 +14,7 @@ var students_2 = [];
 const GenerarConstancias = () => {
     const [start, setStart] = useState(0)
     const [end, setEnd] = useState(0)
-    let { id_curso } = useParams();
+    let { id } = useParams();
 
     function student(name, father_last, mother_last, id_curso) {
         const stu = new Object();
@@ -106,7 +106,7 @@ const GenerarConstancias = () => {
                     let mothers_last = data.slice(0,i);
                     data = data.replace(mothers_last + "\n", "");
 
-                    students[n] = student(name, fathers_last, mothers_last, id_curso);
+                    students[n] = student(name, fathers_last, mothers_last, id);
                     n++;
 
                     console.log(name + " " + fathers_last + " " + mothers_last);
